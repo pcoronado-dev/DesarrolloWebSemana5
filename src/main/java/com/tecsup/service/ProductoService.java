@@ -29,6 +29,22 @@ public class ProductoService {
         repo.deleteById(id);
     }
 
+    // Actualizar un producto existente (auditado por AuditoriaAspect)
+    public Producto actualizar(Long id, Producto datos) {
+        Producto existente = repo.findById(id).orElse(null);
+
+        if (existente == null) {
+            throw new RuntimeException("No se encontró producto con ID: " + id);
+        }
+
+        existente.setNombre(datos.getNombre());
+        existente.setPrecio(datos.getPrecio());
+        existente.setStock(datos.getStock());
+        existente.setCategoria(datos.getCategoria());
+
+        return repo.save(existente);
+    }
+
     // Busqueda por nombre (Actividad del laboratorio)
     public List<Producto> buscarPorNombre(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
