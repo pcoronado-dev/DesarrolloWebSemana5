@@ -28,9 +28,15 @@ class ProductoControllerTest {
                 + "}";
     }
 
+    private org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder conCredenciales(
+            org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder builder) {
+        return builder.header("Usuario", "Ricardo")
+                .header("Rol", "ADMIN");
+    }
+
     @Test
     void guardarProductoValidoDevuelve201() throws Exception {
-        mockMvc.perform(post("/api/productos")
+        mockMvc.perform(conCredenciales(post("/api/productos"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("Monitor", 50, 20, "Perifericos")))
                 .andExpect(status().isCreated())
@@ -40,7 +46,7 @@ class ProductoControllerTest {
 
     @Test
     void guardarProductoInvalidoDevuelve400ConMensajes() throws Exception {
-        mockMvc.perform(post("/api/productos")
+        mockMvc.perform(conCredenciales(post("/api/productos"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("", -5, -1, "")))
                 .andExpect(status().isBadRequest())
@@ -52,18 +58,18 @@ class ProductoControllerTest {
 
     @Test
     void buscarPorNombreDevuelveCoincidencias() throws Exception {
-        mockMvc.perform(post("/api/productos")
+        mockMvc.perform(conCredenciales(post("/api/productos"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json("Teclado Mecanico", 120, 10, "Perifericos")));
 
-        mockMvc.perform(get("/api/productos/buscar").param("nombre", "teclado"))
+        mockMvc.perform(conCredenciales(get("/api/productos/buscar")).param("nombre", "teclado"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nombre").value("Teclado Mecanico"));
     }
 
     @Test
     void buscarPorNombreSinResultadosDevuelve404() throws Exception {
-        mockMvc.perform(get("/api/productos/buscar").param("nombre", "NoExisteXYZ"))
+        mockMvc.perform(conCredenciales(get("/api/productos/buscar")).param("nombre", "NoExisteXYZ"))
                 .andExpect(status().isNotFound());
     }
 }

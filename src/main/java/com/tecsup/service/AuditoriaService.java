@@ -11,8 +11,8 @@ public class AuditoriaService {
     @Autowired
     private AuditoriaRepository repo;
 
-    public void registrar(String accion, String metodo, String detalle) {
-        AuditoriaLog log = new AuditoriaLog(accion, metodo, detalle);
+    public void registrar(String accion, String metodo, String detalle, String usuario) {
+        AuditoriaLog log = new AuditoriaLog(accion, metodo, detalle, usuario);
         repo.save(log);
     }
 }

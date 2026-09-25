@@ -22,6 +22,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errores);
     }
 
+    // Falta de credenciales o usuario/rol invalidos
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<String> manejarUnauthorized(UnauthorizedException ex) {
+        return ResponseEntity.status(401).body(ex.getMessage());
+    }
+
+    // Usuario valido pero sin permisos para la operacion
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<String> manejarForbidden(ForbiddenException ex) {
+        return ResponseEntity.status(403).body(ex.getMessage());
+    }
+
     // Manejo general de errores inesperados (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> manejarErroresGenerales(Exception ex) {

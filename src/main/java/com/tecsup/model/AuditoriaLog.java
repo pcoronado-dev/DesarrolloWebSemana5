@@ -21,14 +21,18 @@ public class AuditoriaLog {
     @Column(length = 255)
     private String detalle;
 
+    @Column(length = 100)
+    private String usuario;
+
     public AuditoriaLog() {
     }
 
-    public AuditoriaLog(String accion, String metodo, String detalle) {
+    public AuditoriaLog(String accion, String metodo, String detalle, String usuario) {
         this.accion = accion;
         this.metodo = metodo;
         this.fecha = LocalDateTime.now();
         this.detalle = detalle;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -61,6 +65,14 @@ public class AuditoriaLog {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getDetalle() {

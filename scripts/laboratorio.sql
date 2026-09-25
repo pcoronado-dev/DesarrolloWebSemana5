@@ -21,8 +21,12 @@ CREATE TABLE IF NOT EXISTS auditoria_log (
     accion VARCHAR(50),
     metodo VARCHAR(100),
     fecha TIMESTAMP,
-    detalle VARCHAR(255)
+    detalle VARCHAR(255),
+    usuario VARCHAR(100)
 );
+
+-- Si la tabla ya existia sin la columna usuario (v1 del laboratorio):
+-- ALTER TABLE auditoria_log ADD usuario VARCHAR(100);
 
 -- Consulta para verificar la actividad (paso 10 del laboratorio):
 -- SELECT * FROM auditoria_log ORDER BY id DESC;
